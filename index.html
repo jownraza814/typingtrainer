@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TypeMaster Practice - Touch Typing Tutor</title>
+<style>
+:root{--bg:#eef2f6;--card:#fff;--ink:#16263a;--mute:#5d6d80;--line:#d3dbe4;--head:#1e3a5f;--accent:#f28c00;--ok:#1b8a4b;--bad:#d92d3a;--cur:#ffe9b8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111a26;--card:#1a2636;--ink:#e8eef6;--mute:#93a4b8;--line:#2e3d52;--head:#0b1420;--ok:#4cd68a;--bad:#ff6b76;--cur:#4a3a14}}
+:root[data-theme="dark"]{--bg:#111a26;--card:#1a2636;--ink:#e8eef6;--mute:#93a4b8;--line:#2e3d52;--head:#0b1420;--ok:#4cd68a;--bad:#ff6b76;--cur:#4a3a14}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:15px "Segoe UI",system-ui,sans-serif}
+[hidden]{display:none!important}
+header{background:var(--head);color:#fff;display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:10px 18px}
+header h1{font-size:19px;margin:0 12px 0 0;font-weight:700}
+nav{display:flex;gap:4px;flex:1}
+nav button{background:none;color:#cfe0f5;border:0;padding:8px 16px;border-radius:6px 6px 0 0;font:inherit;cursor:pointer}
+nav button.on{background:var(--bg);color:var(--ink);font-weight:600}
+header label{font-size:13px;color:#cfe0f5;display:flex;gap:6px;align-items:center}
+main{max-width:960px;margin:0 auto;padding:14px 16px 30px}
+button{font:inherit;color:var(--ink)}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-bottom:14px}
+.lb{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.lb:hover{border-color:var(--accent)}.lb.on{border:2px solid var(--accent);padding:7px 9px}
+.lb b{font-size:13px}.lb span{font-size:12px;color:var(--mute)}
+.star{color:var(--accent);letter-spacing:2px}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 16px;cursor:pointer}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#1a1000;font-weight:600}
+.prim{background:var(--accent);border:0;border-radius:6px;padding:8px 18px;font-weight:600;color:#1a1000;cursor:pointer}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:8px 16px;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+.stat span{display:block;font-size:12px;color:var(--mute)}.stat b{font-size:24px;font-variant-numeric:tabular-nums}
+.ttl{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 8px;color:var(--mute);font-size:13px}
+.ttl strong{color:var(--ink);font-size:15px}
+#txt{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 18px;font:22px/2 ui-monospace,Consolas,"Courier New",monospace;height:132px;overflow:hidden;position:relative;white-space:pre-wrap;word-break:break-word;color:var(--mute)}
+#txt span.ok{color:var(--ok)}#txt span.bad{color:#fff;background:var(--bad);border-radius:3px}
+#txt span.cur{background:var(--cur);color:var(--ink);border-bottom:3px solid var(--accent)}
+.hint{min-height:22px;margin:10px 0 6px;text-align:center;color:var(--mute)}
+.hint b{color:var(--ink)}
+#kb{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:5px;user-select:none}
+.kr{display:flex;gap:5px}
+.key{flex:1;height:44px;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#1a2332;border:1px solid rgba(0,0,0,.18);box-shadow:0 2px 0 rgba(0,0,0,.18);position:relative;min-width:0;transition:transform .05s}
+.key i{font-style:normal;font-size:11px;opacity:.7;line-height:1}
+.f0{background:#ff8fa3}.f1{background:#ffb38a}.f2{background:#ffe27a}.f3{background:#b6e88a}.f4{background:#7fdcc8}.f5{background:#8ec5ff}.f6{background:#b7a4ff}.f7{background:#f0a0e0}.f8{background:#d9dee7}
+.key.next{outline:4px solid var(--ink);outline-offset:1px;transform:translateY(-2px);z-index:1;filter:brightness(1.08)}
+.key.hit{background:#2ecc71}.key.miss{background:#ff3b4a;color:#fff}
+.leg{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;margin-top:12px;font-size:12px;color:var(--mute)}
+.leg s{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:4px;text-decoration:none;vertical-align:-1px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:14px}
+.chart{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;height:170px;display:flex;align-items:flex-end;gap:8px;margin-bottom:14px}
+.chart div{flex:1;background:var(--accent);border-radius:4px 4px 0 0;position:relative;min-height:3px}
+.chart div span{position:absolute;top:-18px;left:0;right:0;text-align:center;font-size:11px;color:var(--mute)}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:8px}
+td,th{padding:7px 10px;text-align:left;border-bottom:1px solid var(--line);font-size:13px}
+#res{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px;z-index:5}
+#res.on{display:flex}
+.rbox{background:var(--card);border-radius:12px;padding:22px 26px;max-width:440px;width:100%;text-align:center}
+.rbox h2{margin:0 0 4px}.rbox .big{font-size:52px;font-weight:700;color:var(--accent);line-height:1.1}
+.rbox p{color:var(--mute);margin:6px 0}
+.rbox .row{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+@media (max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}#txt{font-size:17px}.key{height:34px;font-size:11px}}
+@media (prefers-reduced-motion:reduce){.key{transition:none}}
+</style>
+<meta name="theme-color" content="#1e3a5f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="TypeMaster">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>.inst{background:var(--accent);border:0;border-radius:6px;padding:6px 12px;font:inherit;font-weight:600;color:#1a1000;cursor:pointer}</style>
+</head>
+<body>
+<header>
+  <h1>TypeMaster Practice</h1>
+  <nav role="tablist" aria-label="Sections">
+    <button role="tab" data-t="lessons" class="on">Lessons</button>
+    <button role="tab" data-t="test">Speed test</button>
+    <button role="tab" data-t="prog">Progress</button>
+  </nav>
+  <label><input type="checkbox" id="snd"> Sound</label>
+  <button class="inst" id="install" hidden>Install app</button>
+</header>
+<main>
+  <section id="p-lessons"><div class="lgrid" id="lgrid"></div></section>
+  <section id="p-test" hidden>
+    <div class="bar"><span>Length:</span>
+      <button class="chip" data-d="30">30 sec</button><button class="chip on" data-d="60">1 min</button><button class="chip" data-d="120">2 min</button><button class="chip" data-d="180">3 min</button>
+      <button class="prim" id="newTest">New test</button></div>
+  </section>
+  <section id="p-prog" hidden>
+    <div class="cards" id="cards"></div>
+    <h3>Recent speed tests (words per minute)</h3><div class="chart" id="chart"></div>
+    <h3>Lessons</h3><table id="ltab"></table>
+    <p><button class="sec" id="reset">Reset all progress</button></p>
+  </section>
+  <section id="prac">
+    <div class="ttl"><strong id="ex">Lesson</strong><span id="goal"></span></div>
+    <div class="stats">
+      <div class="stat"><span id="tl">Time</span><b id="sT">0:00</b></div>
+      <div class="stat"><span>Speed (WPM)</span><b id="sW">0</b></div>
+      <div class="stat"><span>Accuracy</span><b id="sA">100%</b></div>
+      <div class="stat"><span>Errors</span><b id="sE">0</b></div>
+    </div>
+    <div id="txt" aria-live="off"></div>
+    <div class="hint" id="hint">Start typing to begin. Press Esc to restart.</div>
+    <div id="kb" aria-hidden="true"></div>
+    <div class="leg" id="leg"></div>
+    <p class="hint">A physical keyboard is needed. Keep your eyes on the text, not the keys.</p>
+  </section>
+</main>
+<div id="res"><div class="rbox" id="rbox"></div></div>
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+const E=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rnd=n=>Math.floor(Math.random()*n),pick=a=>a[rnd(a.length)];
+const FING=['left pinky','left ring finger','left middle finger','left index finger','right index finger','right middle finger','right ring finger','right pinky','thumb'];
+
+// Keyboard
+const ROWS=[
+ [['`~',0],['1!',0],['2@',1],['3#',2],['4$',3],['5%',3],['6^',4],['7&',4],['8*',5],['9(',6],['0)',7],['-_',7],['=+',7],['Backspace',7,2]],
+ [['Tab',0,1.5],['q',0],['w',1],['e',2],['r',3],['t',3],['y',4],['u',4],['i',5],['o',6],['p',7],['[{',7],[']}',7],['\\|',7,1.5]],
+ [['Caps',0,1.8],['a',0],['s',1],['d',2],['f',3],['g',3],['h',4],['j',4],['k',5],['l',6],[';:',7],["'\"",7],['Enter',7,2.2]],
+ [['ShiftL',0,2.4],['z',0],['x',1],['c',2],['v',3],['b',3],['n',4],['m',4],[',<',5],['.>',6],['/?',7],['ShiftR',7,2.8]],
+ [['Space',8,6]]];
+const KEY={},CH={},kb=$('#kb');
+const SPEC={Backspace:'Backspace',Tab:'Tab',Caps:'Caps',Enter:'Enter',ShiftL:'Shift',ShiftR:'Shift',Space:''};
+ROWS.forEach(row=>{
+  const r=E('div','kr');
+  row.forEach(([n,f,w=1])=>{
+    const k=E('div','key f'+f);k.style.flex=w;
+    if(SPEC[n]!==undefined){k.textContent=SPEC[n];KEY[n]=k;if(n==='Space')CH[' ']={k,f:8,s:false}}
+    else if(n.length===1){k.textContent=n.toUpperCase();CH[n]={k,f,s:false};CH[n.toUpperCase()]={k,f,s:true};KEY[n]=k}
+    else{k.innerHTML='<i>'+esc(n[1])+'</i>'+esc(n[0]);CH[n[0]]={k,f,s:false};CH[n[1]]={k,f,s:true};KEY[n[0]]=k}
+    r.appendChild(k);
+  });
+  kb.appendChild(r);
+});
+const COL=['#ff8fa3','#ffb38a','#ffe27a','#b6e88a','#7fdcc8','#8ec5ff','#b7a4ff','#f0a0e0','#d9dee7'];
+$('#leg').innerHTML=FING.map((n,i)=>`<span><s style="background:${COL[i]}"></s>${n}</span>`).join('');
+
+// Content
+const WORDS=('the and for are but not you all any can had her was one our out day get has him his how man new now old see two way who boy did its let put say she too use add ask fall flask dad sad lad glad flag salad jar has fish gas half hall hash lash slash flash dash sash shall ash lag sag gag hag fad had jag ill kid lid skid slid aid said dial sail fail laid kill hill fill fife life file side tide ride hide fire hire wire wife wide slide field yield dried tried fried red rid rug rub run sun fun urge user use sure true tree tell tall toy try yes yet you your type story tray tore top pop pot put out our opt option pipe pope prior port poet quiet queen quick quit quote quiz quilt wet wit win way was wish wide wrote write power tower water where with what when which while will wolf work word world would very view vote van vet visit voice above brave bring about below bench bunch mean moon more money many make mind name near noon nine north number movie mumble women common comb come cave clip cup cold city coin calm cost cool car zone zoo zero zip zest zinc size seize prize amaze jazz jump just jelly join joke box fox six mix tax fix next exit exam excuse extra expert example oxygen wizard maze kayak kind kitchen key keep know like little long look many might much must never only other over people place right said same some such take than that them then there these they this time very want well were what when will with word work would year young world quick brown jumps lazy').split(' ');
+const SENT=['The quick brown fox jumps over the lazy dog.','Practice makes progress, so keep your hands relaxed.','Where there is a will, there is a way.','Do you know how far it is from here to the station?','She said, "Type slowly first, then get faster."','It rained all day; we stayed inside and read books.','Never look at the keys - trust your fingers!','A steady rhythm beats a fast start with many mistakes.','Keep your wrists level and your posture straight.','Good typists rarely think about the keyboard at all.','Our team shipped the new version on Friday (finally).','What is the best way to learn? Repeat, review, rest.'];
+const STEPS=[['Home row: a s d f j k l ;','asdfjkl;'],['Reach with g and h','gh'],['Top row: e and i','ei'],['Top row: r and u','ru'],['Top row: t, y, o and p','tyop'],['Top row: q and w','qw'],['Bottom row: v b n m','vbnm'],['Bottom row: z x c , and .','zxc,.']];
+let acc='';const LS=STEPS.map(([t,a])=>({t,c:acc+=a}));
+LS.push({t:'Capital letters and Shift',c:acc,caps:1},{t:'Number row',num:1},{t:'Punctuation and symbols',punct:1},{t:'Full sentences',sent:1});
+function gen(set,n){
+  const S=new Set(set),pool=WORDS.filter(w=>[...w].every(c=>S.has(c))),ch=[...S],out=[];let len=0;
+  while(len<n){let w;
+    if(pool.length>=8&&Math.random()<.78)w=pick(pool);else{w='';for(let i=0,L=2+rnd(4);i<L;i++)w+=pick(ch)}
+    out.push(w);len+=w.length+1}
+  return out.join(' ');
+}
+function lessonText(L){
+  if(L.num){let s=[];for(let i=0;i<22;i++){let g='';for(let j=0,n=2+rnd(4);j<n;j++)g+=rnd(10);s.push(g)}return s.join(' ')}
+  if(L.punct)return [...SENT.filter(s=>/[!?"();:-]/.test(s))].sort(()=>Math.random()-.5).slice(0,3).join(' ');
+  if(L.sent)return [...SENT].sort(()=>Math.random()-.5).slice(0,3).join(' ');
+  let t=gen(L.c+(L.caps?'':''),150);
+  if(L.caps)t=t.split(' ').map(w=>Math.random()<.45?w[0].toUpperCase()+w.slice(1):w).join(' ');
+  return t;
+}
+const goalOf=i=>Math.min(35,12+i*2);
+
+// Storage
+let DB={lessons:{},tests:[]};
+try{const d=JSON.parse(localStorage.getItem('typemaster-v1'));if(d&&d.lessons&&d.tests)DB=d}catch(e){}
+const save=()=>{try{localStorage.setItem('typemaster-v1',JSON.stringify(DB))}catch(e){}};
+
+// Sound
+let ac;
+function beep(f,d){if(!$('#snd').checked)return;try{ac=ac||new AudioContext();const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;g.gain.value=.04;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
+
+// Session
+let S=null,mode='lessons',cur=0,dur=60,spans=[];
+const fmtT=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+function begin(kind,text,extra){
+  if(S&&S.timer)clearInterval(S.timer);
+  S=Object.assign({kind,t:text,i:0,typed:[],keys:0,err:0,start:0,done:false,timer:0},extra||{});
+  const box=$('#txt');box.innerHTML='';spans=[];box.scrollTop=0;
+  [...text].forEach(c=>{const s=E('span','',esc(c));box.appendChild(s);spans.push(s)});
+  $('#res').classList.remove('on');
+  $('#tl').textContent=kind==='test'?'Time left':'Time';
+  $('#sT').textContent=kind==='test'?fmtT(dur):'0:00';$('#sW').textContent='0';$('#sA').textContent='100%';$('#sE').textContent='0';
+  if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
+  cursor();
+}
+function startLesson(i){
+  cur=i;const L=LS[i];
+  begin('lesson',lessonText(L),{n:i});
+  $('#ex').textContent='Lesson '+(i+1)+': '+L.t;
+  $('#goal').textContent='Goal: '+goalOf(i)+' WPM with 90% accuracy';
+  drawLessons();
+}
+function startTest(){
+  const w=[];for(let i=0;i<400;i++)w.push(pick(WORDS));
+  begin('test',w.join(' '),{dur});
+  $('#ex').textContent='Speed test: '+(dur<60?dur+' seconds':dur/60+' minute'+(dur>60?'s':''));
+  $('#goal').textContent='Type as many words as you can before time runs out';
+}
+function cursor(){
+  spans.forEach(s=>s.classList.remove('cur'));
+  document.querySelectorAll('.key.next').forEach(k=>k.classList.remove('next'));
+  const sp=spans[S.i],ch=S.t[S.i];
+  if(sp){sp.classList.add('cur');const box=$('#txt');box.scrollTop=Math.max(0,sp.offsetTop-box.offsetTop-52)}
+  const h=$('#hint');
+  if(!ch){h.textContent='';return}
+  const info=CH[ch];if(!info){h.textContent='';return}
+  info.k.classList.add('next');
+  let m=ch===' '?'Press <b>Space</b> with your thumb':`Type <b>${esc(ch)}</b> with your <b>${FING[info.f]}</b>`;
+  if(info.s){const sh=info.f<4?'ShiftR':'ShiftL';KEY[sh].classList.add('next');m+=` and hold the <b>${sh==='ShiftR'?'right':'left'} Shift</b>`}
+  h.innerHTML=m;
+}
+function flash(ch,ok){
+  const k=ch==='Backspace'?KEY.Backspace:(CH[ch]&&CH[ch].k);if(!k)return;
+  const c=ok?'hit':'miss';k.classList.add(c);setTimeout(()=>k.classList.remove(c),140);
+}
+function type(ch){
+  if(S.i>=S.t.length)return;
+  if(!S.start){S.start=performance.now();S.timer=setInterval(tick,200)}
+  const ok=ch===S.t[S.i];S.keys++;
+  if(!ok){S.err++;beep(180,.09)}else beep(720,.025);
+  S.typed[S.i]=ch;spans[S.i].className=ok?'ok':'bad';flash(ch,ok);S.i++;
+  stats();cursor();
+  if(S.i>=S.t.length)finish(false);
+}
+function back(){
+  if(S.i<=0||S.done)return;
+  S.i--;S.typed.length=S.i;spans[S.i].className='';flash('Backspace',true);cursor();stats();
+}
+function calc(){
+  const el=S.start?(performance.now()-S.start)/1000:0;
+  let ok=0;for(let j=0;j<S.i;j++)if(S.typed[j]===S.t[j])ok++;
+  const el2=S.kind==='test'?Math.min(el,S.dur):el;
+  return{el:el2,wpm:el2>0?Math.round(ok/5/(el2/60)):0,acc:S.keys?Math.round(100*(S.keys-S.err)/S.keys):100};
+}
+function stats(){
+  if(!S)return;const c=calc();
+  $('#sW').textContent=c.wpm;$('#sA').textContent=c.acc+'%';$('#sE').textContent=S.err;
+  $('#sT').textContent=fmtT(S.kind==='test'?Math.max(0,Math.ceil(S.dur-c.el)):c.el);
+}
+function tick(){if(!S||S.done)return;stats();if(S.kind==='test'&&(performance.now()-S.start)/1000>=S.dur)finish(true)}
+function finish(timeUp){
+  clearInterval(S.timer);S.done=true;stats();
+  const c=calc(),rb=$('#rbox');
+  if(S.kind==='lesson'){
+    const g=goalOf(S.n),st=c.acc>=98&&c.wpm>=g*1.6?3:c.acc>=95&&c.wpm>=g*1.3?2:c.acc>=90&&c.wpm>=g?1:0;
+    const prev=DB.lessons[S.n];
+    if(st>0&&(!prev||st>=prev.stars||c.wpm>prev.wpm))DB.lessons[S.n]={stars:Math.max(st,prev?prev.stars:0),wpm:Math.max(c.wpm,prev?prev.wpm:0),acc:c.acc};
+    save();drawLessons();
+    const nxt=S.n+1<LS.length;
+    rb.innerHTML=`<h2>${st?'Lesson passed':'Almost there'}</h2><div class="star" style="font-size:28px">${'&#9733;'.repeat(st)}${'&#9734;'.repeat(3-st)}</div><div class="big">${c.wpm} WPM</div><p>Accuracy ${c.acc}% with ${S.err} error${S.err===1?'':'s'} in ${fmtT(c.el)}</p><p>${st?'':`You need ${g} WPM at 90% accuracy to pass. Slow down a little and aim for clean keystrokes.`}</p><div class="row"><button class="sec" id="rRetry">Try again</button>${st&&nxt?'<button class="prim" id="rNext">Next lesson</button>':''}</div>`;
+    $('#res').classList.add('on');
+    $('#rRetry').onclick=()=>startLesson(S.n);
+    if($('#rNext'))$('#rNext').onclick=()=>startLesson(S.n+1);
+  }else{
+    DB.tests.push({d:Date.now(),wpm:c.wpm,acc:c.acc,dur:S.dur});DB.tests=DB.tests.slice(-50);save();
+    const best=Math.max(...DB.tests.map(t=>t.wpm));
+    rb.innerHTML=`<h2>Time's up</h2><div class="big">${c.wpm} WPM</div><p>Accuracy ${c.acc}% with ${S.err} error${S.err===1?'':'s'}</p><p>${c.wpm>=best?'That is your best speed so far.':'Your best is '+best+' WPM.'}</p><div class="row"><button class="prim" id="rRetry">Test again</button></div>`;
+    $('#res').classList.add('on');$('#rRetry').onclick=startTest;
+  }
+  if($('#rRetry'))$('#rRetry').focus();
+}
+function restart(){if(mode==='lessons')startLesson(cur);else if(mode==='test')startTest()}
+
+// Views
+function drawLessons(){
+  const g=$('#lgrid');g.innerHTML='';
+  LS.forEach((L,i)=>{
+    const r=DB.lessons[i],b=E('button','lb'+(i===cur?' on':''),`<b>${i+1}. ${esc(L.t)}</b><span class="star">${'&#9733;'.repeat(r?r.stars:0)}${'&#9734;'.repeat(3-(r?r.stars:0))}</span><span>${r?'Best '+r.wpm+' WPM':'Goal '+goalOf(i)+' WPM'}</span>`);
+    b.onclick=()=>startLesson(i);g.appendChild(b);
+  });
+}
+function drawProgress(){
+  const T=DB.tests,best=T.length?Math.max(...T.map(t=>t.wpm)):0,last=T.slice(-5),avg=last.length?Math.round(last.reduce((a,t)=>a+t.wpm,0)/last.length):0;
+  const done=Object.keys(DB.lessons).length;
+  $('#cards').innerHTML=[['Best speed',best+' WPM'],['Average of last 5',avg+' WPM'],['Tests taken',T.length],['Lessons passed',done+' of '+LS.length]].map(([a,b])=>`<div class="stat"><span>${a}</span><b>${b}</b></div>`).join('');
+  const ch=$('#chart'),r=T.slice(-12),mx=Math.max(20,...r.map(t=>t.wpm));
+  ch.innerHTML=r.length?r.map(t=>`<div style="height:${Math.max(3,t.wpm/mx*100)}%" title="${t.acc}% accuracy"><span>${t.wpm}</span></div>`).join(''):'<span style="color:var(--mute)">Finish a speed test to see your results here.</span>';
+  $('#ltab').innerHTML='<tr><th>Lesson</th><th>Stars</th><th>Best speed</th><th>Accuracy</th></tr>'+LS.map((L,i)=>{const r=DB.lessons[i];return`<tr><td>${i+1}. ${esc(L.t)}</td><td class="star">${r?'&#9733;'.repeat(r.stars):'-'}</td><td>${r?r.wpm+' WPM':'-'}</td><td>${r?r.acc+'%':'-'}</td></tr>`}).join('');
+}
+function setTab(t){
+  mode=t;
+  document.querySelectorAll('nav button').forEach(b=>{b.classList.toggle('on',b.dataset.t===t);b.setAttribute('aria-selected',b.dataset.t===t)});
+  ['lessons','test','prog'].forEach(n=>$('#p-'+n).hidden=n!==t);
+  $('#prac').hidden=t==='prog';
+  if(S&&S.timer)clearInterval(S.timer);
+  if(t==='lessons')startLesson(cur);else if(t==='test')startTest();else{if(S)S.done=true;drawProgress()}
+}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>setTab(b.dataset.t));
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{dur=+c.dataset.d;document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===c));startTest()});
+$('#newTest').onclick=startTest;
+let armed=0;
+$('#reset').onclick=e=>{
+  if(!armed){armed=1;e.target.textContent='Click again to erase all progress';setTimeout(()=>{armed=0;e.target.textContent='Reset all progress'},4000);return}
+  DB={lessons:{},tests:[]};save();armed=0;e.target.textContent='Reset all progress';drawProgress();
+};
+
+// Keyboard input
+addEventListener('keydown',e=>{
+  if(e.key==='Escape'){if(mode!=='prog')restart();return}
+  if(!S||S.done||mode==='prog'||$('#res').classList.contains('on'))return;
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
+  if(e.key==='Backspace'){e.preventDefault();back();return}
+  if(e.key.length!==1)return;
+  e.preventDefault();type(e.key);
+});
+addEventListener('keyup',e=>{if(e.key===' '&&S&&!S.done&&mode!=='prog')e.preventDefault()});
+
+// Start on the first lesson that is not passed yet
+const first=LS.findIndex((_,i)=>!DB.lessons[i]);cur=first<0?0:first;
+drawLessons();startLesson(cur);
+})();
+</script>
+<script>
+(()=>{
+const b=document.getElementById('install');let dp;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;b.hidden=false});
+b.onclick=async()=>{if(!dp)return;dp.prompt();await dp.userChoice;dp=null;b.hidden=true};
+addEventListener('appinstalled',()=>{b.hidden=true});
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+})();
+</script>
+</body>
+</html>
